@@ -37,7 +37,7 @@ class GameService(val gameRepository: GameRepository) : GamePortService {
     }
 
     override fun findByName(name: String): Game? {
-        TODO("Not yet implemented")
+        return gameRepository.findByName(name)
     }
 
     fun getEmptyGame() = emptyGame
