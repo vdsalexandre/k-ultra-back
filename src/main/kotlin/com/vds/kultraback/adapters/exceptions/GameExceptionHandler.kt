@@ -21,9 +21,9 @@ class GameExceptionHandler : ResponseEntityExceptionHandler() {
         ]
     )
     fun exceptionHandler(exception: Exception, request: WebRequest): ResponseEntity<Any> {
-        val body = when (exception) {
+        val body: Any = when (exception) {
             is MethodArgumentTypeMismatchException -> emptyGame
-            else -> "Error in request"
+            else -> "Error in request : ${exception.message}"
         }
         return handleExceptionInternal(exception, body, HttpHeaders(), HttpStatus.BAD_REQUEST, request)
     }

@@ -6,11 +6,11 @@ import java.math.BigDecimal
 object Util {
 
     val emptyGame = GameDTO(
-        id = "",
+        gameId = "",
         title = "",
         price = BigDecimal.ZERO,
         publisher = -1,
-        tags = "",
+        tags = listOf(),
         releaseDate = null
     )
 }
