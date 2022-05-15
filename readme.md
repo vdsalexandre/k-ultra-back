@@ -15,7 +15,7 @@
 `gradle bootRun`
 
 ### Description
-Little backend micro-service in kotlin which aims to serve the games data.  
+Little backend REST in kotlin which aims to serve the games data.  
 Application exposes REST api providing CRUD operations to fetch one or several games.
 
 ### Application endpoints

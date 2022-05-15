@@ -9,9 +9,7 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.core.env.Environment
 
-
 fun initDB(environment: Environment) {
-
     Database.connect(
         url = environment.getProperty("spring.datasource.url")!!,
         driver = environment.getProperty("spring.datasource.driver-class-name")!!,
