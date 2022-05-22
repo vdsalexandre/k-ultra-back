@@ -3,6 +3,7 @@ package com.vds.kultraback.application.api
 import assertk.assertAll
 import com.ninjasquad.springmockk.MockkBean
 import com.vds.kultraback.application.model.Game
+import com.vds.kultraback.application.model.Publisher
 import com.vds.kultraback.application.services.GameService
 import com.vds.kultraback.application.utils.Util.emptyGame
 import io.mockk.every
@@ -23,13 +24,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 internal class GameResourceTest {
 
     companion object {
-        val GAMES = listOf(
-            Game(1, "game 1", BigDecimal.valueOf(50.95), 1500, listOf("fps"), LocalDate.of(2022, 1, 1)),
-            Game(2, "game 2", BigDecimal.valueOf(55.95), 1600, listOf("moba"), LocalDate.of(2021, 12, 31)),
-            Game(3, "game 3", BigDecimal.valueOf(59.95), 1700, listOf("survival"), LocalDate.of(2002, 5, 27))
+        private val PUBLISHER_1 = Publisher(1500, "Ubisoft", 123456789, "+33101020304")
+        private val PUBLISHER_2 = Publisher(1600, "Riot Games", 987654321, "+33109080706")
+        private val GAMES = listOf(
+            Game(1, "game 1", BigDecimal.valueOf(50.95), PUBLISHER_1.id, listOf("fps"), LocalDate.of(2022, 1, 1)),
+            Game(2, "game 2", BigDecimal.valueOf(55.95), PUBLISHER_1.id, listOf("moba"), LocalDate.of(2021, 12, 31)),
+            Game(3, "game 3", BigDecimal.valueOf(59.95), PUBLISHER_2.id, listOf("survival"), LocalDate.of(2002, 5, 27))
         )
 
-        val GAME = Game(10, "game 10", BigDecimal.valueOf(70), 2000, listOf("tps", "fps"), LocalDate.now())
+        private val GAME = Game(10, "game 10", BigDecimal.valueOf(70), 2000, listOf("tps", "fps"), LocalDate.now())
     }
 
     @Autowired

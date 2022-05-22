@@ -28,4 +28,8 @@ class GameService(val gameRepository: GameRepository, environment: Environment) 
     fun delete(id: Long) {
         return gameRepository.deleteGame(id)
     }
+
+    fun update(game: Game): Game {
+        return gameRepository.updateGame(game)
+    }
 }

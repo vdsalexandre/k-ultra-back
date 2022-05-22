@@ -6,12 +6,13 @@ import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.javatime.date
 
 object Games : LongIdTable() {
     val title = varchar(name = "title", length = 255)
     val price = decimal(name = "price", precision = 10, scale = 2)
-    val publisher = long(name = "publisher")
+    val publisher = reference("publisher", Publishers)
     val tags = varchar(name = "tags", length = 255)
     val releaseDate = date(name = "releaseDate")
 }
@@ -25,7 +26,7 @@ class GameEntity(id: EntityID<Long>) : LongEntity(id) {
     var tags by Games.tags
     var releaseDate by Games.releaseDate
 
-    fun toGame() = Game(id.value, title, price, publisher, tags.split(","), releaseDate)
+    fun toGame() = Game(id.value, title, price, publisher.value, tags.split(","), releaseDate)
 }
 
 data class Game(
@@ -35,4 +36,16 @@ data class Game(
     val publisher: Long,
     val tags: List<String>,
     val releaseDate: LocalDate?
-)
+) {
+    companion object {
+        fun toGame(row: ResultRow) =
+            Game(
+                id = row[Games.id].value,
+                title = row[Games.title],
+                price = row[Games.price],
+                publisher = row[Games.publisher].value,
+                tags = listOf(row[Games.tags]),
+                releaseDate = row[Games.releaseDate]
+            )
+    }
+}
