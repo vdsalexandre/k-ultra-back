@@ -1,45 +1,38 @@
 package com.vds.kultraback.application.repository
 
 import com.vds.kultraback.application.model.Game
-import com.vds.kultraback.application.model.Game.Companion.toGame
 import com.vds.kultraback.application.model.GameEntity
-import com.vds.kultraback.application.model.Games
 import com.vds.kultraback.application.model.PublisherEntity
 import com.vds.kultraback.application.utils.Util
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import org.springframework.stereotype.Repository
 
 @Repository
 class GameRepository {
 
     fun findAll() = transaction {
-        Games.selectAll().map { toGame(it) }
+        GameEntity.all().map { it.toGame() }
     }
 
     fun addGame(game: Game) = transaction {
-        val id = Games.insertAndGetId {
-            it[title] = game.title
-            it[price] = game.price
-            it[publisher] = PublisherEntity.findById(game.publisher)!!.id
-            it[tags] = game.tags.joinToString(separator = ",")
-            it[releaseDate] = game.releaseDate!!
-        }
-        return@transaction Games.select { Games.id.eq(id) }.limit(1).first().let { toGame(it) }
+        GameEntity.new {
+            title = game.title
+            price = game.price
+            publisher = PublisherEntity.findById(game.publisher)!!.id
+            tags = game.tags.joinToString(separator = ",")
+            releaseDate = game.releaseDate!!
+        }.toGame()
     }
 
     fun updateGame(game: Game) = transaction {
-        Games.update({Games.id eq game.id}) {
-            it[title] = game.title
-            it[price] = game.price
-            it[publisher] = PublisherEntity.findById(game.publisher)!!.id
-            it[tags] = game.tags.joinToString(separator = ",")
-            it[releaseDate] = game.releaseDate!!
-        }
-        return@transaction Games.select { Games.id.eq(game.id) }.limit(1).first().let { toGame(it) }
+        val gameEntity = GameEntity[game.id]
+        gameEntity.title = game.title
+        gameEntity.price = game.price
+        gameEntity.publisher = PublisherEntity[game.publisher].id
+        gameEntity.tags = game.tags.joinToString(separator = ",")
+        gameEntity.releaseDate = game.releaseDate!!
+
+        return@transaction findById(game.id)
     }
 
     fun deleteGame(gameId: Long) = transaction {
