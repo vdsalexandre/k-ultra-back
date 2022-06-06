@@ -23,7 +23,7 @@ fun initDB(environment: Environment) {
 
 private fun insertData() {
     transaction {
-        SchemaUtils.create(Publishers)
+        SchemaUtils.create(Publishers, Games)
         val publisherId = Publishers.insertAndGetId { publisher ->
             publisher[name] = "Ubisoft"
             publisher[siret] = 123456789
@@ -34,7 +34,6 @@ private fun insertData() {
             publisher[siret] = 987654321
             publisher[phone] = "+33109080706"
         }
-        SchemaUtils.create(Games)
         Games.insert { game ->
             game[title] = "League of Legends"
             game[price] = BigDecimal.valueOf(50.50)

@@ -1,6 +1,7 @@
 package com.vds.kultraback.application.api
 
 import assertk.assertAll
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.vds.kultraback.application.model.Game
 import com.vds.kultraback.application.model.Publisher
@@ -88,5 +89,27 @@ internal class GameResourceTest {
             .andExpect(jsonPath("$.releaseDate", CoreMatchers.nullValue()))
 
         assertAll { verify(exactly = 1) { gameService.findById(gameId) } }
+    }
+
+    @Test
+    internal fun `should add new game`() {
+        val newGame = Game(
+            10,
+            "Prince of Persia",
+            BigDecimal.valueOf(35.55),
+            PUBLISHER_1.id,
+            listOf("adventure", "PVE"),
+            LocalDate.of(2004, 6, 1)
+        )
+
+        every { gameService.add(any()) } returns newGame
+
+        mockMvc.perform(MockMvcRequestBuilders
+            .post("/game/add")
+            .content(ObjectMapper().findAndRegisterModules().writeValueAsString(newGame))
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id", CoreMatchers.equalTo(10)))
+            .andExpect(jsonPath("$.title", CoreMatchers.equalTo("Prince of Persia")))
     }
 }
