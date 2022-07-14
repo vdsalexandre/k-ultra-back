@@ -1,9 +1,8 @@
-package com.vds.kultraback.application.repository
+package com.vds.kultraback.repository
 
-import com.vds.kultraback.application.model.Game
-import com.vds.kultraback.application.model.GameEntity
-import com.vds.kultraback.application.model.PublisherEntity
-import com.vds.kultraback.application.utils.Util
+import com.vds.kultraback.model.Game
+import com.vds.kultraback.model.GameEntity
+import com.vds.kultraback.model.PublisherEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
 
@@ -39,7 +38,7 @@ class GameRepository {
         GameEntity[gameId].delete()
     }
 
-    fun findById(gameId: Long) = transaction {
-        GameEntity.findById(gameId)?.toGame() ?: Util.emptyGame
+    fun findById(gameId: Long): Game? = transaction {
+        GameEntity.findById(gameId)?.toGame()
     }
 }

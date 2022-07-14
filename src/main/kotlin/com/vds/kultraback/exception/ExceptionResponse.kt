@@ -1,4 +1,4 @@
-package com.vds.kultraback.application.exception
+package com.vds.kultraback.exception
 
 data class ExceptionResponse(
     var errorCode: String,

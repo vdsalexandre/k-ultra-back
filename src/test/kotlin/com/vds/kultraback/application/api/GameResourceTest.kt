@@ -3,10 +3,11 @@ package com.vds.kultraback.application.api
 import assertk.assertAll
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.vds.kultraback.application.model.Game
-import com.vds.kultraback.application.model.Publisher
-import com.vds.kultraback.application.services.GameService
-import com.vds.kultraback.application.utils.Util.emptyGame
+import com.vds.kultraback.api.GameResource
+import com.vds.kultraback.model.Game
+import com.vds.kultraback.model.Publisher
+import com.vds.kultraback.services.GameService
+import com.vds.kultraback.utils.Util.emptyGame
 import io.mockk.every
 import io.mockk.verify
 import java.math.BigDecimal
@@ -61,7 +62,7 @@ internal class GameResourceTest {
     internal fun `should return game identified by id when calling endpoint`() {
         val gameId: Long = 10
 
-        every { gameService.findById(gameId) } returns GAME
+        every { gameService.retrieveById(gameId) } returns GAME
 
         mockMvc.perform(MockMvcRequestBuilders
             .get("/game/find/$gameId")
@@ -71,14 +72,14 @@ internal class GameResourceTest {
             .andExpect(jsonPath("$.title", CoreMatchers.`is`("game 10")))
             .andExpect(jsonPath("$.price", CoreMatchers.`is`(70)))
 
-        assertAll { verify(exactly = 1) { gameService.findById(gameId) } }
+        assertAll { verify(exactly = 1) { gameService.retrieveById(gameId) } }
     }
 
     @Test
     internal fun `should return empty game giving wrong id`() {
         val gameId: Long = 25
 
-        every { gameService.findById(gameId) } returns emptyGame
+        every { gameService.retrieveById(gameId) } returns emptyGame
 
         mockMvc.perform(MockMvcRequestBuilders
             .get("/game/find/$gameId")
@@ -88,7 +89,7 @@ internal class GameResourceTest {
             .andExpect(jsonPath("$.title", CoreMatchers.not("value")))
             .andExpect(jsonPath("$.releaseDate", CoreMatchers.nullValue()))
 
-        assertAll { verify(exactly = 1) { gameService.findById(gameId) } }
+        assertAll { verify(exactly = 1) { gameService.retrieveById(gameId) } }
     }
 
     @Test

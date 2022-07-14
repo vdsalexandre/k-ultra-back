@@ -1,8 +1,8 @@
-package com.vds.kultraback.application.services
+package com.vds.kultraback.services
 
-import com.vds.kultraback.application.model.Game
-import com.vds.kultraback.application.repository.GameRepository
-import com.vds.kultraback.application.repository.initDB
+import com.vds.kultraback.model.Game
+import com.vds.kultraback.repository.GameRepository
+import com.vds.kultraback.repository.initDB
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
@@ -17,7 +17,7 @@ class GameService(val gameRepository: GameRepository, environment: Environment) 
         return gameRepository.findAll()
     }
 
-    fun findById(id: Long): Game {
+    fun retrieveById(id: Long): Game? {
         return gameRepository.findById(id)
     }
 
@@ -29,7 +29,7 @@ class GameService(val gameRepository: GameRepository, environment: Environment) 
         return gameRepository.deleteGame(id)
     }
 
-    fun update(game: Game): Game {
+    fun update(game: Game): Game? {
         return gameRepository.updateGame(game)
     }
 }

@@ -1,4 +1,4 @@
-package com.vds.kultraback.application.model
+package com.vds.kultraback.model
 
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -6,7 +6,6 @@ import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
-import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.javatime.date
 
 object Games : LongIdTable() {
@@ -36,16 +35,4 @@ data class Game(
     val publisher: Long,
     val tags: List<String>,
     val releaseDate: LocalDate?
-) {
-    companion object {
-        fun toGame(row: ResultRow) =
-            Game(
-                id = row[Games.id].value,
-                title = row[Games.title],
-                price = row[Games.price],
-                publisher = row[Games.publisher].value,
-                tags = listOf(row[Games.tags]),
-                releaseDate = row[Games.releaseDate]
-            )
-    }
-}
+)

@@ -1,4 +1,4 @@
-package com.vds.kultraback.application.model
+package com.vds.kultraback.model
 
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass

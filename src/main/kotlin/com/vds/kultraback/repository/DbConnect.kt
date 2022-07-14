@@ -1,7 +1,7 @@
-package com.vds.kultraback.application.repository
+package com.vds.kultraback.repository
 
-import com.vds.kultraback.application.model.Games
-import com.vds.kultraback.application.model.Publishers
+import com.vds.kultraback.model.Games
+import com.vds.kultraback.model.Publishers
 import java.math.BigDecimal
 import java.time.LocalDate
 import org.jetbrains.exposed.sql.Database

@@ -19,3 +19,11 @@ Little backend REST in kotlin which aims to serve the games data.
 Application exposes REST api providing CRUD operations to fetch one or several games.
 
 ### Application endpoints
+
+| VERB   | URL                                 | PARAMETER(S) |
+|--------|-------------------------------------|--------------|
+| GET    | http://localhost:9090/game/find/    | **id**       |
+| GET    | http://localhost:9090/game/find/all |              |
+| POST   | http://localhost:9090/game/add      | body         |
+| DELETE | http://localhost:9090/game/del/     | **id**       |
+| PUT    | http://localhost:9090/game/update/  | body         |

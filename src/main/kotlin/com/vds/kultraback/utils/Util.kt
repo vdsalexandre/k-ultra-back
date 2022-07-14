@@ -1,6 +1,6 @@
-package com.vds.kultraback.application.utils
+package com.vds.kultraback.utils
 
-import com.vds.kultraback.application.model.Game
+import com.vds.kultraback.model.Game
 import java.math.BigDecimal.valueOf
 
 object Util {

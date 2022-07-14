@@ -1,4 +1,4 @@
-package com.vds.kultraback.application.exception
+package com.vds.kultraback.exception
 
 import org.springframework.beans.TypeMismatchException
 import org.springframework.http.HttpHeaders
