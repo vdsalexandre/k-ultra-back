@@ -1,15 +1,15 @@
-package com.vds.kultraback.repository
+package com.vds.kultraback.bootstrap
 
 import com.vds.kultraback.model.Games
 import com.vds.kultraback.model.Publishers
-import java.math.BigDecimal
-import java.time.LocalDate
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.core.env.Environment
+import java.math.BigDecimal
+import java.time.LocalDate
 
 fun initDB(environment: Environment) {
     Database.connect(

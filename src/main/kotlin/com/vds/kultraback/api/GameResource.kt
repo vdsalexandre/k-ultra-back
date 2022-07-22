@@ -6,7 +6,6 @@ import com.vds.kultraback.utils.Util.emptyGame
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.notFound
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,33 +30,30 @@ class GameResource(val gameService: GameService) {
     }
 
     @PostMapping("/add")
-    fun addGame(@RequestBody game: Game): Game {
-        return gameService
-            .add(game)
+    fun addGame(@RequestBody game: Game): ResponseEntity<Game> {
+        return gameService.add(game)
             .also { logger.info("addGame> $it") }
+            .let { ok(it) }
     }
 
     @GetMapping("/find/all")
     fun fetchAllGames(): ResponseEntity<List<Game>> {
-        return gameService
-            .findAll()
+        return gameService.findAll()
             .also { logger.info("fetchAllGames> games to retrieve: ${it.size}") }
             .let { ok(it) }
     }
 
     @DeleteMapping("/del/{id}")
-    fun removeGame(@PathVariable id: Long) {
-        return gameService
-            .delete(id)
-            .also {
-                logger.info("removeGame> $id")
-            }
+    fun removeGame(@PathVariable id: Long): ResponseEntity.BodyBuilder {
+        return gameService.delete(id)
+            .also { logger.info("removeGame> $id") }
+            .let { ok() }
     }
 
     @PutMapping("/update")
     fun updateGame(@RequestBody game: Game): ResponseEntity<Game> {
         return gameService.update(game)
             .also { logger.info("updateGame> $it") }
-            ?.let { ok(it) } ?: notFound().build()
+            ?.let { ok(it) } ?: ResponseEntity(emptyGame, HttpStatus.NOT_FOUND)
     }
 }

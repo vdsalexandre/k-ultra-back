@@ -1,12 +1,12 @@
 package com.vds.kultraback.model
 
-import java.math.BigDecimal
-import java.time.LocalDate
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.javatime.date
+import java.math.BigDecimal
+import java.time.LocalDate
 
 object Games : LongIdTable() {
     val title = varchar(name = "title", length = 255)

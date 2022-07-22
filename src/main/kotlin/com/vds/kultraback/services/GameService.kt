@@ -1,8 +1,8 @@
 package com.vds.kultraback.services
 
+import com.vds.kultraback.bootstrap.initDB
 import com.vds.kultraback.model.Game
 import com.vds.kultraback.repository.GameRepository
-import com.vds.kultraback.repository.initDB
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 
